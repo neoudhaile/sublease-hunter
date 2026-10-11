@@ -41,13 +41,59 @@ groups/<city>.yaml ──► scrape ──► extract ──► rank ──► N
 
 ## Requirements
 
+For the pipeline (scraping, ranking, Notion sync):
+
 - Python 3.12+
-- A Notion account (free is fine) and an internal integration
+- A Notion account (free is fine) and an [internal integration](https://www.notion.so/my-integrations)
 - The [Claude Code](https://claude.com/claude-code) CLI on your PATH — the
   extraction step calls `claude -p`
 - A Facebook account that is already a member of the groups you want to read
 
+For the half an agent does — posting, DMs, booking calls — connect these to
+Claude. Each one you skip still leaves a working pipeline; it just hands that
+part back to you:
+
+| Connect | For | Without it |
+|---|---|---|
+| A browser tool — Claude in Chrome, or Claude Code's in-app browser | posting the listing, sending DMs, reading replies | Scraping and ranking still work; every message is yours to send |
+| **Notion** (MCP connector) | reading and editing the boards in conversation | The pipeline still reads and writes via the API; you just can't browse it in chat |
+| A calendar — the `apple-calendar` skill, or a calendar MCP | offering real free slots when a lead agrees to a call | You pick the times by hand |
+
+`python -m pipeline.doctor` checks everything on the first list. The agent
+reports the second, since it can only see its own tools.
+
 ## Setup
+
+### The short way: let the agent do it
+
+Open the repo in Claude Code and say **`setup`**. It runs the connection check,
+asks the handful of things only you know — when your place is free, where it is,
+what you're charging, whether it's a room or the whole place — writes them into
+`config.yaml`, walks you through Notion and the Facebook login, offers to draft
+your listing from your photos (or takes copy you already have), proves the
+pipeline works on sample data, and then explains what it will do before anything
+goes near a real group. That walkthrough is `skills/sublease-setup/`.
+
+At any point:
+
+```bash
+.venv/bin/python -m pipeline.doctor
+```
+
+prints the state of every connection — Python, dependencies, the `claude` CLI,
+your config and window, the Notion token and each page, the group registry, the
+Facebook session, your listing and photos — with the fix for each thing that is
+missing. Read-only, no model call, nothing billable.
+
+```
+[  ok  ] window — 2027-03-01 to 2027-04-15 (45 nights)
+[  ok  ] NOTION_TOKEN — authenticated as Sublease Automation
+[ FAIL ] notion.people_page_id — Notion says 404 for People board page
+         fix: open the page in Notion, ••• -> Connections -> add your integration
+[ warn ] listing photos — 0 image(s) in listing_photos/
+```
+
+### The manual way
 
 **1. Install**
 
@@ -168,10 +214,11 @@ watching, and the result is written back with:
 ```
 
 The skills in `skills/` are the operating instructions for all of this —
-`sublease-search`, `sublease-conversations`, `sublease-posting`,
-`sublease-outreach`, and `sublease-outreach-voice` (the voice and the price
-rules). `.claude/skills` symlinks to them so Claude Code picks them up
-automatically. `CLAUDE.md` holds the standing rules.
+`sublease-setup` (the first-run walkthrough), `sublease-search`,
+`sublease-conversations`, `sublease-posting`, `sublease-outreach`, and
+`sublease-outreach-voice` (the voice and the price rules). `.claude/skills`
+symlinks to them so Claude Code picks them up automatically. `CLAUDE.md` holds
+the standing rules.
 
 ## Notion is the datastore
 
@@ -212,6 +259,18 @@ These are not suggestions; each one came from hitting it.
 - Never pay a group "access fee", never solve a CAPTCHA, never let an agent
   enter a password or a PIN. Mark the group blocked and move on.
 
+## When something stops working
+
+Run the doctor first; it checks the things that actually break.
+
+The usual culprit is the **Facebook session expiring** every few weeks. The
+symptom is not an error — it is a scrape that returns nothing. Re-run
+`.venv/bin/python fb_login.py`.
+
+If a Notion write 404s, the page is not shared with your integration
+(`•••` → Connections). If extraction fails, `claude` is not on the PATH of
+whatever launched the job — launchd does not inherit your shell's PATH.
+
 ## Privacy
 
 This repo scrapes posts by real people looking for housing. `out/`, `cache/`,
@@ -224,6 +283,7 @@ looking and delete it when you're done.
 
 ```
 pipeline/           scrape → extract → enrich → gender → rank → notion sync
+pipeline/doctor.py  is everything connected? (free, read-only)
 skills/             agent operating instructions (symlinked into .claude/skills)
 groups/             the group registry: what to read, where to post
 docs/posting-sop.md the full posting procedure

@@ -16,6 +16,19 @@ for people seeking a sublet) and post in (list the user's room).
   cleared, a group demanding a price), update the entry and its `last_verified`.
 - The rules for each field are in that file's header.
 
+## First contact: "setup"
+
+If `config.yaml` is missing, or the user says **setup**, or asks how to start,
+load the `sublease-setup` skill and walk them through it conversationally — one
+step at a time, not as a checklist. `python -m pipeline.doctor` prints the state
+of every connection (free, read-only, no model call); run it before asking any
+question, and after any step that should have fixed something.
+
+Report which of these *you* have, since the doctor cannot see them: a browser
+tool (posting and DMs), Notion (reading the boards in chat), a calendar tool
+(offering real slots for calls). Say what is missing before the user relies on
+it.
+
 ## "search"
 
 When the user types **search** on its own, that is a command: run the three
