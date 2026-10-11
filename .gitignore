@@ -1,0 +1,23 @@
+# Secrets
+.env
+
+# Your own listing and photos
+config.yaml
+listing_post.txt
+message_template.txt
+listing_photos/
+groups/*.yaml
+!groups/*.example.yaml
+
+# Everything the pipeline scrapes or produces: real people's names, profile
+# links and post text. Never commit these.
+cache/
+out/
+raw/
+logs/
+archive/
+
+# Python
+.venv/
+__pycache__/
+*.pyc

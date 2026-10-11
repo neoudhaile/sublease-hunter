@@ -1,0 +1,53 @@
+# Copy to config.yaml and fill in. Nothing here is shared; config.yaml is gitignored.
+
+# The dates your place is free. Everything is ranked against this window:
+# a candidate's score is how many of these nights they can cover.
+window:
+  start: 2027-03-01
+  end: 2027-04-15
+
+# Notion is the datastore. Create a parent page, add two sub-pages under it
+# ("People" and "Posts"), share all three with your integration, then paste
+# their IDs here. The ID is the 32-hex string in the page URL.
+notion:
+  parent_page_id: ""      # the parent page
+  people_page_id: ""      # candidates we find go here
+  posts_page_id: ""       # where your listing has been posted
+  candidates_db_title: "Sublease Candidates"
+  posts_db_title: "My Posts"
+  # One state file per letting period, so an old board is never written to.
+  state_file: notion_state.json
+
+settings:
+  days_back: 30           # how far back to scrape each run
+  limit_per_group: 80     # max posts per group per run
+  forage_delay: 3.0       # seconds between page loads; be polite
+  group_timeout_min: 8    # skip a group whose scrape hangs
+  max_post_age_days: 40   # ignore seeker posts older than this (stale leads)
+  extract_model: haiku    # claude model for extraction; cheap and fast
+  extract_batch: 12       # posts per model call
+
+# Groups to read come from the shared registry: every active entry with
+# read: true. Copy groups/nyc.example.yaml to groups/<city>.yaml and edit.
+groups_registry: ./groups/nyc.yaml
+
+# Your place. `nightly_rate` is read by the code (the price reminder on groups
+# that demand a number); the rest is read by the skills in skills/, which write
+# the messages and the listing post.
+listing:
+  nightly_rate: 80        # quoted in replies, never in cold outreach
+  neighbourhood: "your neighbourhood"
+  unit_type: room         # "room" in a share, or "whole_unit"
+
+# Optional household preferences. These are PRIVATE ranking signals for your own
+# shortlist; they never appear in a post or a message.
+preferences:
+  # "male", "female", or "none" (the default). With a preference set, a matching
+  # candidate ranks one notch higher, the opposite ranks one notch lower, and
+  # the outreach pass holds the opposite back for you to decide on by hand
+  # instead of messaging them. Nobody is ever deleted by this, and ambiguous
+  # names are never held back. With "none", gender is recorded and nothing else.
+  prefer_gender: none
+  # Two people sharing the single room is a dealbreaker (a couple in one room).
+  # Someone who needs two SEPARATE rooms is fine: only one of them takes yours.
+  max_people_per_room: 1

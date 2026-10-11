@@ -1,0 +1,461 @@
+# NYC Facebook housing groups: the master list of groups we READ (scrape for
+# people seeking a sublet) and POST in (list the user's room).
+#
+# RULES FOR EVERY AGENT (see also CLAUDE.md):
+#   - Work only within this list. Never read from or post in a group that is
+#     not here. To use a new group, ADD it here first (with evidence), then use it.
+#   - Never delete an entry. If a group stops working, set status: retired and
+#     say why in notes, so nobody re-tries it blind.
+#   - Update membership / post / last_verified whenever you observe a change
+#     (membership approved, post rejected, admin queue cleared, price demanded).
+#   - Per-period posting state (which listing is live where, permalinks) lives in
+#     the Notion "Posts" database, not here. This file holds durable facts only.
+#
+# FIELDS
+#   id            the part of the URL after facebook.com/groups/ (slug or number)
+#   members       approximate member count when last seen (null = unknown)
+#   visibility    public | private | null
+#   membership    member | pending | not-joined | null(unknown)
+#   read          true = include in seeker scrapes (forage needs membership for
+#                 private groups)
+#   post          ok | admin-queue | blocked | not-joined | untested
+#                   ok          posts go live immediately
+#                   admin-queue posts wait for admin approval
+#                   blocked     can't post yet (membership / questionnaire pending)
+#                   not-joined  join first (see notes)
+#                   untested    member, never tried posting
+#   requires_price  true | false | unknown. If true, the listing MUST include a
+#                 price: use listing.nightly_rate from config.yaml. Otherwise
+#                 NEVER put a price in the listing.
+#   short_term    true if the group is specifically for short-term sublets
+#   status        active | retired
+#   last_verified date the membership/post facts were last observed
+#
+# This example ships 32 real NYC groups with all PERSONAL state reset:
+# membership, read and post are yours to fill in as you join and post. Member
+# counts, visibility and group quirks are kept because they are facts about the
+# group, not about you. Copy it to groups/<city>.yaml and edit.
+
+city: NYC
+groups:
+
+- name: New York City Sublets
+  id: '1986175048370665'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: 25K members.
+
+- name: NYU Housing, Rooms, Apartments, Sublets
+  id: '1416151198490459'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC Sublets & Short-Term Rentals
+  id: ohananewyorkcity
+  members: 119500
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Participation-review questionnaire blocks posting. Short-term focused, so worth clearing.
+    Never pay an access fee.
+
+- name: NYC Roommates, Sublets & Apartments
+  id: '362585282654583'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: New York City Apartments, Roommates, Sublets | Manhattan, Brooklyn, Queens
+  id: '547466899383959'
+  members: 110300
+  visibility: private
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Use sentence format; this group's formatting mangles bullet lists.
+
+- name: New York apartment for rent
+  id: '523005961174090'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: New York City, USA - Housing, Apartments, Rooms, Sublets, Roommates
+  id: '880627063634781'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC APARTMENTS FOR RENT
+  id: '1651982041751861'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: New York - House, Roommate & Apartments - Rent & Sublet
+  id: '2205128056327933'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC Rooms for Rent roommates, rooms, apartments + sublets
+  id: NYCRooms
+  members: 195300
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Largest group in this list. Posts go to a participation-review queue.
+
+- name: New York Sublet
+  id: '6758853177'
+  members: 130000
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Reformatted to sentence style after FB mangled bullets.
+
+- name: NYC Short Term Sublets - New York
+  id: '601244195395936'
+  members: 26100
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Short-term focused.
+
+- name: Ghostlight Housing
+  id: gypsyhousing
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Membership needed before a scrape returns anything.
+
+- name: NYC Apartments and Rooms, Sublets, New York City
+  id: '1927060304187633'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC Sublets & Apartments
+  id: nycsublets
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: New York City Housing, Rooms, Apartments, Sublets
+  id: '1225966920763001'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC Brooklyn - Housing, Rooms, Apartments, Sublets
+  id: '2050201058584087'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC Midtown - Housing, Rooms, Apartments, Sublets
+  id: '2028131347450371'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: NYC East Village - Housing, Rooms, Apartments, Sublets
+  id: '191002868295974'
+  members: 30000
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Own neighborhood, 31.7K members.
+
+- name: NYC Sublets, Apartments, Rentals, Housing
+  id: '418408305947254'
+  members: null
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: ''
+
+- name: SpareRoom NYC
+  id: spareroomnyc
+  members: null
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Public, quick join.
+
+- name: New York City, NYC - Apartments, Sublets, Roommates
+  id: '3668775323228109'
+  members: null
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Group is women-only ("Young Females - New York City"); confirm it is an appropriate
+    venue before joining.
+
+- name: Gypsy Housing NYC
+  id: '3827629097251324'
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Check membership before reading.
+
+- name: (unnamed) NewYorkCityHousingSubletsRentals
+  id: NewYorkCityHousingSubletsRentals
+  members: null
+  visibility: null
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Seen during a posting sweep; name and state never recorded. Verify before use.
+
+- name: NYC Roommates | No Fee Apartments New York City, Manhattan, Brooklyn
+  id: '570540710404589'
+  members: 141000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: 141K members, 90+ posts a day. Posts go live instantly.
+
+- name: Brooklyn Housing, Rooms, Apartments, Sublets & Roommates
+  id: '547638812062578'
+  members: 64000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Admins reject any post without a listing link on a third-party site (Cirtru.com).
+    Never sign up for a third-party service to satisfy a group — surface it and let the user
+    decide.
+
+- name: New York University (NYU) Housing, Sublets & Roommates
+  id: '393380784778502'
+  members: 49000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: NYU student feed, 90+ posts a day. Worth it if your place is near campus.
+
+- name: New York Furnished Apartments - Short/long terms
+  id: '510518075727566'
+  members: 46000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Furnished and short-term focused. Quiet feed (~5 posts a day) but well targeted.
+
+- name: NEW YORK / NJ / CT - Apartments, Rooms, House, Sublets, Roommates
+  id: nynjaresidentials
+  members: 4400
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: 30+ posts a day despite the small membership. Tri-state, so expect plenty of non-NYC
+    noise.
+
+- name: NYC Sublets (small)
+  id: '1684799386270722'
+  members: 4000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Distinct from the larger "New York City Sublets". Small but sublet-specific.
+
+- name: New York University (NYU) Off Campus Housing & Roommate Search
+  id: newyorkuniversitynyuoffcampushousingroommatesearch
+  members: 3400
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: false
+  status: active
+  last_verified: null
+  notes: Small NYU group.
+
+- name: Girls Who Sublet (NYC)
+  id: '766157679261478'
+  members: 47000
+  visibility: public
+  membership: not-joined
+  read: false
+  post: not-joined
+  requires_price: unknown
+  short_term: true
+  status: active
+  last_verified: null
+  notes: Women-only group. Read its rules and ask the user before joining or posting.

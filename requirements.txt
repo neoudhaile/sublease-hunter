@@ -1,0 +1,4 @@
+# Scraping: ForageFacebook drives a real logged-in Chromium session.
+# It pulls in playwright and httpx.
+foragefacebook>=1.2.0
+PyYAML>=6.0
